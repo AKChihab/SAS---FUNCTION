@@ -2,8 +2,14 @@
 /*PARAMETES : 
 FIRST P : Interval is the unit of measurement. It can be days, weeks, months, quarters, years.
       EXP => Month | YEAR | DAY ...
-Advanced EXP =>  week1.3 : tuesday | year1.3 :third month and 1st day  |  */ 
+Advanced EXP =>  week1.3 : tuesday | year1.3 :third month and 1st day  |  
+Second P : SAS date value which would be incremented.
+Third P : is number of intervals by which date is incremented. It can be zero, positive or negative. 
+            Negative value refers to previous dates.
+Fourth P: Alignment [Optional - Default value: 'beginning'] is where datevalue is aligned within interval prior to being incremented. 
+           he values you can specify - 'beginning' ('b' or 'BEGIN'), 'middle' ('m'), 'end' or 'E', 'sameday' or "s" 
 
+*/ 
 *APPLICATION;
 /* MONDAY OF THE LAST WEEK : ( week1.2 means : second day of the week : monday ) */
 %let monday =%sysfunc(intnx(week1.2,%Sysfunc(today()),-1,BEGIN),DATE9.);
