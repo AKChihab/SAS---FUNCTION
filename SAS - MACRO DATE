@@ -1,0 +1,20 @@
+/*  SAS function INTNX is used to increment SAS date by a specified number of intervals. */ 
+/*PARAMETES : 
+FIRST P : Interval is the unit of measurement. It can be days, weeks, months, quarters, years.
+      EXP => Month | YEAR | DAY ...
+Advanced EXP =>  week1.3 : tuesday | year1.3 :third month and 1st day  |  */ 
+
+*APPLICATION;
+/* MONDAY OF THE LAST WEEK : ( week1.2 means : second day of the week : monday ) */
+%let monday =%sysfunc(intnx(week1.2,%Sysfunc(today()),-1,BEGIN),DATE9.);
+%put &monday;
+/*18NOV2019*/
+
+%let date = %sysfunc(intnx(year1.2, '01MAY2019'd, 1),DATE9.);
+%put &date;
+/*01FEB2020*/
+
+%let date = %sysfunc(intnx(year1.7, '01MAY2019'd, 1),DATE9.);
+%put &date;
+/*01JUL2019*/
+
