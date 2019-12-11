@@ -29,3 +29,14 @@ Fourth P: Alignment [Optional - Default value: 'beginning'] is where datevalue i
 
 /*   CONVERT FORMAT DATE  to YYYYMMDD  */
 %let DATE= %eval( %sysfunc(year(&DATE_DEB.))*10000 + %sysfunc(month(&DATE_DEB.))*100 + %sysfunc(day(&DATE_DEB.)) )  ; /*EXp format 20180101 */ 
+
+
+/* IF the variable|column is a datetime not a date and you want to get the date portion only :*/
+/* You need to use DATEPART() function in the output */ 
+/*http://support.sas.com/documentation/cdl/en/lrdict/64316/HTML/default/viewer.htm#a001263753.htm*/
+
+*Exemple; 
+proc sql;
+select  id,Datepart(date_time) as date_only format =date9. ,
+
+
