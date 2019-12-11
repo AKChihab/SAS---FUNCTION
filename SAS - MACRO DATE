@@ -16,6 +16,9 @@ Fourth P: Alignment [Optional - Default value: 'beginning'] is where datevalue i
 %put &monday;
 /*18NOV2019*/
 
+/* End of  previous month */ 
+%LET DATE_END_MONTH="%sysfunc(intnx(month,%Sysfunc(today()),-1,E),DATE9.)"d ;
+
 %let date = %sysfunc(intnx(year1.2, '01MAY2019'd, 1),DATE9.);
 %put &date;
 /*01FEB2020*/
@@ -24,3 +27,5 @@ Fourth P: Alignment [Optional - Default value: 'beginning'] is where datevalue i
 %put &date;
 /*01JUL2019*/
 
+/*   CONVERT FORMAT DATE  to YYYYMMDD  */
+%let DATE= %eval( %sysfunc(year(&DATE_DEB.))*10000 + %sysfunc(month(&DATE_DEB.))*100 + %sysfunc(day(&DATE_DEB.)) )  ; /*EXp format 20180101 */ 
