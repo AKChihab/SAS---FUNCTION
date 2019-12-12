@@ -1,0 +1,22 @@
+/* Add a row number to data */ 
+
+/*  PROC DATA  */ 
+data new;
+set old;
+IDNew=_n_;
+run;
+
+/*  SQL  */
+
+proc sql;
+create table new as 
+  select *,monotonic() as N from  old;
+quit;
+
+/*  If you want creating a group identifier then something like below should work   */
+
+data new;
+  set old;
+  by var1 var2;  /* data set have must be sorted by var1 var2 */
+  if first.var2 then group_id+1;
+run;
