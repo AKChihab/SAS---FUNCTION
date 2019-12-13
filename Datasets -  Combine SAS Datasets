@@ -1,0 +1,6 @@
+/*The most common way to combine two datasets together in SAS is using the SET statement within a Data Step.
+Using PROC DATASETS, you can accomplish the same task as the SET statement but in a more efficient way.*/
+
+/* wo datasets can be combined more efficiently because SAS only needs to read in the observations from 
+the dataset being appended. When working with many records or “Big Data”, this can be huge time saver.*/
+https://www.sascrunch.com/proc-datasets.html#
