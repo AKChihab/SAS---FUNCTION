@@ -20,3 +20,13 @@ data new;
   by var1 var2;  /* data set have must be sorted by var1 var2 */
   if first.var2 then group_id+1;
 run;
+
+/* set all missing values to zero for all numerical variables  */
+
+data DATA_FULL;
+set DATA_MISS ; 
+ array NUM _numeric_;
+        do over NUM;
+            if NUM=. then NUM=0;
+        end;
+run;
