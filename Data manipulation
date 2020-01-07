@@ -32,15 +32,28 @@ set DATA_MISS ;
 run;
 
 /* Create a SAS macro variable that contains a list of valuse */ 
+/* Methode 1 : using Proc sql (option: into)  */
 proc sql noprint;                              
  select distinct(ID) into :ParamList separated by ','  /* U can personalize the separator ;) */
  from TABLE ;
 quit;
-
 %put ParamList = &ParamList; 
 
+/*Methode 2 */ 
+data _null_;
+ length allvars $1000; /* length of the output list */
+ retain allvars ' ';  /* initialize the list */ 
+ set IMPORT_CAMPAGNES end=eof;
+ /* U can personalize the separator */ 
+ *allvars = trim(left(allvars))||' '||left(ID); /* ' ' as a separator */
+  allvars = catx(',',trim(left(allvars)),ID); /* ',' as a separator */
+  if eof then call symput('varlist', allvars);
+ run;
+%put &varlist;
+
+
 DATA TABLE2 ;
-SET TABLE1( where = (ID in (&ParamList.) ))  ;
+SET TABLE1( where = (ID in (&ParamList.) /* or in (&varlist.)*/ ))  ;
 RUN ;
 
 */
