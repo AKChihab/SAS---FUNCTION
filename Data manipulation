@@ -30,3 +30,18 @@ set DATA_MISS ;
             if NUM=. then NUM=0;
         end;
 run;
+
+/* Create a SAS macro variable that contains a list of valuse */ 
+proc sql noprint;                              
+ select distinct(ID) into :ParamList separated by ','  /* U can personalize the separator ;) */
+ from TABLE ;
+quit;
+
+%put ParamList = &ParamList; 
+
+DATA TABLE2 ;
+SET TABLE1( where = (ID in (&ParamList.) ))  ;
+RUN ;
+
+*/
+
