@@ -4,3 +4,14 @@ Using PROC DATASETS, you can accomplish the same task as the SET statement but i
 /* wo datasets can be combined more efficiently because SAS only needs to read in the observations from 
 the dataset being appended. When working with many records or “Big Data”, this can be huge time saver.*/
 https://www.sascrunch.com/proc-datasets.html#
+
+/* MERGE TWO DATE SETS USING A DATA SET */
+
+/* U can sort the data directly in the data set by using the option sorteby */ 
+/* EXP */ 
+DATA Entreprise_Expo; 
+merge TABLE1 ( where = (CD1='035' and CD2='1' and CD3 ne "" ) sortedby =ID  in = a )
+TABLE2( where = (CD2='1' and CD1='035'AND CD4 in ('1','3') and  CD5 >="00501") sortedby =ID  in = b ) ;
+by ID ;
+if a & b ; 
+run;
