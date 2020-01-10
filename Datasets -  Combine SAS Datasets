@@ -11,7 +11,9 @@ https://www.sascrunch.com/proc-datasets.html#
 /* EXP */ 
 DATA Entreprise_Expo; 
 merge TABLE1 ( where = (CD1='035' and CD2='1' and CD3 ne "" ) sortedby =ID  in = a )
-TABLE2( where = (CD2='1' and CD1='035'AND CD4 in ('1','3') and  CD5 >="00501") sortedby =ID  in = b ) ;
-by ID ;
-if a & b ; 
+TABLE2( where = (CD2='1' and CD1='035'AND CD4 in ('1','3') and  CD5 >="00501") sortedby =ID  in = b ) 
+TABLE3 (WHERE= ( CD56 = '1' and (CD6>0 or CD7>0  or CD8>0 )) sortedby =comax  in = c );
+by ID ; /* variable de jointure */ 
+if a & b & not c  ;  /* condition de jointure */ 
+if first.comax then output;  /* distinct */ 
 run;
