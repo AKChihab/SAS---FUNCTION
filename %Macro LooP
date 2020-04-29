@@ -1,0 +1,52 @@
+
+rsubmit;
+proc sql ;
+  select memname into :ParamList separated by ' ' 
+  from dictionary.tables
+  where libname = 'WORK'
+  order by memname ;
+quit ;
+
+%put ParamList = &ParamList; 
+%let nwords=%sysfunc(countw(&ParamList));
+%put nwords= &nwords; 
+endrsubmit;
+
+
+
+rsubmit ;
+%let list= a ,b ,c ,d ,e;
+%macro loop(vlist);
+%let nwords=%sysfunc(countw(&vlist));
+
+%do i=1 %to &nwords;
+
+%put %scan(&vlist, &i) ;
+
+%end;
+%end;
+%mend;
+
+%loop(&list);
+
+%loop(&ParamList);
+
+
+
+
+rsubmit;  
+%macro loop_table(vlist);
+%let nwords=%sysfunc(countw(&vlist));
+
+%do i=1 %to &nwords;
+proc sql;
+create table %scan(&vlist, &i)1 as  
+select ............
+from %scan(&vlist, &i) as a                 
+ ;
+quit; 
+%end;
+
+%mend;
+
+%loop_table(&ParamList);
