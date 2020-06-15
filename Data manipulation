@@ -58,3 +58,27 @@ RUN ;
 
 */
 
+;*';*";*/;quit;run;
+OPTIONS PAGENO=MIN;
+proc sql  noprint ; 
+create table swork.TTT as  
+ select 
+case when famille_besoin ="Prévoyance" then Mot_cl_ end  as KEYList_PREV
+,case when famille_besoin ="IARD" then  Mot_cl_ end as KEYList_IARD  
+, case when famille_besoin ="Epargne" then  Mot_cl_ end as KEYList_EPARG   
+,case when famille_besoin ="banque au quotidien" then  Mot_cl_ end  as KEYList_BQ  
+,case when famille_besoin ="Crédit" then  Mot_cl_ end  as KEYList_CR  
+
+ into :KEYList_PREV separated by "," ,
+	:KEYList_IARD separated by "," ,
+	:KEYList_EPARG separated by ",", 
+	:KEYList_BQ separated by ","  ,
+	:KEYList_CR separated by "," 
+ from swork.KEYWORD_BESOIN  ;
+quit;
+
+%put KEYList_PREV = &KEYList_PREV; 
+%put &KEYList_PREV.;
+%LET tt = %NRBQUOTE(&KEYList_PREV.); 
+%put &tt.;
+
