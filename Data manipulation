@@ -13,6 +13,14 @@ create table new as
   select *,monotonic() as N from  old;
 quit;
 
+/*  IDENTIFYING DUPLICATES   */
+data TEST ; 
+set ID ;
+by ID  ; 
+if not (first.ID and last.ID ) ;
+run; 
+
+
 /*  If you want creating a group identifier then something like below should work   */
 
 data new;
