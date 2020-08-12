@@ -32,8 +32,6 @@ rsubmit ;
 %loop(&ParamList);
 
 
-
-
 rsubmit;  
 %macro loop_table(vlist);
 %let nwords=%sysfunc(countw(&vlist));
