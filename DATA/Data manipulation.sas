@@ -90,3 +90,11 @@ quit;
 %LET tt = %NRBQUOTE(&KEYList_PREV.); 
 %put &tt.;
 
+
+
+/* DATASET of duplicate ID : more than one interview */ 
+data test ; 
+set DATASET_FINALE ;
+by comax  ; 
+if not (first.comax and last.comax ) ;
+run; 
