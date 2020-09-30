@@ -39,4 +39,10 @@ Fourth P: Alignment [Optional - Default value: 'beginning'] is where datevalue i
 proc sql;
 select  id,Datepart(date_time) as date_only format =date9. ,
 
-
+/* DATE JOUR */ 
+PROC SQL NOPRINT;
+SELECT TODAY() FORMAT DATE9.
+INTO :TMP_DATE_ACTUELLE_S
+FROM PRV0.P_DATE_PROD_HEBDO
+;
+QUIT;
