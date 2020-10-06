@@ -95,3 +95,32 @@ proc means data = BESOIN_cre sum ; var BAQ--PREVOYANCE ; run ;
 data test ; set PROFILS_CRE ( where = (iselection >0 )) ; run ;
 
 endrsubmit; 
+
+
+
+rsubmit;
+options validvarname=any;
+%MACRO RB_DETECTION(SUFFIXE=LABEL);
+
+proc sql;
+select  distinct(translate(lowcase('max('||compress(strip(&SUFFIXE.),'-_ ')|| ') as ' ||compress(strip(&SUFFIXE.),'-_ ') ),"aaceeeeiiouu","àâçéèêëîïôùû-_'")) into  :LIST1 separated by ',' 
+from &SUFFIXE. ; 
+quit; 
+
+%LET VAR_CRE = %STR(&LIST1);;
+/*%put VAR_CRE = &VAR_CRE; */
+
+proc sql ; 
+create table RB_&SUFFIXE._CRE as 
+select CODE_RB , 
+%UNQUOTE(%NRBQUOTE(%UPCASE(&VAR_CRE.))) 
+from &SUFFIXE._CRE 
+group by CODE_RB 
+;quit;
+%mend;
+
+%RB_DETECTION(SUFFIXE=PROFILS);
+%RB_DETECTION(SUFFIXE=BESOIN);
+%RB_DETECTION(SUFFIXE=momentvie);
+endrsubmit;
+
