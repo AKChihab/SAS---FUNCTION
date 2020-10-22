@@ -116,3 +116,41 @@ set DATASET_FINALE ;
 by comax  ; 
 if not (first.comax and last.comax ) ;
 run; 
+
+
+/*  TP explore : ERROR .??? */ 
+*proc ds2 ; 
+	data _null_ ;
+		declare package hash values();
+		declare package hash dsicards();
+		declare double IDD;
+	
+		method init();
+			values.keys([COMAX_S]);
+			values.data([COMAX_S ,COMAX_AD]);
+			values.defineDone();
+			discards.keys([COMAX_S]);
+			discards.defineDone();
+   		end;
+
+		method run();
+      	set Cyberplus( where = (COPRO ='00955') ) ;
+
+        if discards.find() ne 0 then do;
+        IDD = COMAX_AD;
+        if values.find() eq 0 and COMAX_AD ne IDD then do;
+          values.remove();
+          discards.add();
+        end;
+        else
+          values.add();
+      end;
+    end;
+
+    method term();
+      values.output('PRO');
+    end;
+ * enddata;
+  run;
+*quit;
+*/ 
