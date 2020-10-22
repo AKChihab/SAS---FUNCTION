@@ -29,6 +29,24 @@ data new;
   if first.var2 then group_id+1;
 run;
 
+data CYBERPR ; 
+set Cyberp ( where = (CODE ='00955') ) ;
+by ADMIN;
+if first.ADMIN then KEEP =1 ;
+else kEEP +1 ; 
+run;
+
+data CYBERPR ; 
+	do until( not (first.ADMIN and last.ADMIN) ) ; 
+		set Cyberp ( where = (COCODEPRO ='00955') ) ;
+		by ADMIN;
+		if first.ADMIN then KEEP =1 ;
+		else kEEP +1 ; 
+	end ;
+run;
+
+
+
 /* set all missing values to zero for all numerical variables  */
 
 data DATA_FULL;
