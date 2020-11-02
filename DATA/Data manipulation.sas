@@ -20,6 +20,19 @@ by ID  ;
 if not (first.ID and last.ID ) ;
 run; 
 
+/*Concatenate multiple rows if ID duplicate into a single row by ocncatenating the values */ 
+
+DATA MCDO_ENT_PRO1 ; 
+do until (last.COMAX) ; 
+	set MCDO_ENT_PRO;  ;
+	format MCDO_ENT1 MCDO_PRO1 $5. ; 
+	by comax ; 
+	MCDO_ENT1= catx('',MCDO_ENT1,MCDO_PRO);
+	MCDO_PRO1= catx('',MCDO_PRO1,MCDO_ENT);
+	end;
+drop MCDO_PRO MCDO_ENT ; 
+run ; 
+
 
 /*  If you want creating a group identifier then something like below should work   */
 
