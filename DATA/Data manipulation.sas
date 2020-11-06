@@ -167,3 +167,31 @@ run;
   run;
 *quit;
 */ 
+
+/*   Create random alphanumerical keys  */
+rsubmit;
+%let allowed = '1' '2' '3' '4' '5' '6' '7' '8' '9' 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p' 'q' 'r' 's' 't' 'u' 'v' 'w' 'x' 'y' 'z';
+%let n = %sysfunc(countw(%superq(allowed)));
+%put NOTE: &=n;
+%let numIDs = 100;    *number of IDs to create;
+%let idLen = 7;    
+
+proc plan; 
+   factors rep=&numids ordered v=&idLen. of &n random / noprint; 
+   output out=ids v cvals=(&allowed);
+   run; 
+data words;
+   do until(last.rep);
+      set ids;
+      by rep;
+      length word $&idlen;
+      word = cats(word,v);
+      end; 
+   drop v;
+   run; 
+proc sort data=words nodupkey; 
+   by word;
+   run; 
+proc sort data=words;
+   by rep;
+   run; 
